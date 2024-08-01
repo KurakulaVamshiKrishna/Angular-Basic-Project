@@ -1,0 +1,32 @@
+name: MY-APP
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build app
+      run: npm run build -- --prod
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.2.6
+      with:
+        branch: gh-pages
+        folder: dist/<your-app-name>
+        token: ${{ secrets.GITHUB_TOKEN }}
